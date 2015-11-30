@@ -1,0 +1,32 @@
+<h1>Статистика сайта russianpulse.ru</h1>
+
+Просмотров сегодня: <%= PageView.where("created_at > ?", Time.now.beginning_of_day ).count %>
+
+<div>
+
+<div id="chart_div"></div>
+</div>
+
+<script type="text/javascript">
+  google.load("visualization", "1", {packages:["corechart"]});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+    <% hours = PageView.group("to_char(created_at, 'HH24')").count %>
+
+    var rows = <%= raw (0..23).map { |h| [h.to_s, hours[h.to_s.rjust(2, "0")] || 0] }.to_json %>;
+
+    var data = google.visualization.arrayToDataTable([
+      ['Hours',  'Просмотры'],
+    ].concat(rows));
+
+    var options = {
+      title: 'Просмотры за сегодя',
+      vAxis: {title: 'Просмотры за час'},
+      isStacked: true
+    };
+
+    var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
+
+    chart.draw(data, options);
+  }
+</script>
