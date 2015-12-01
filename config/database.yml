@@ -24,4 +24,4 @@ test:
 
 production:
   <<: *default
-  database: chiefstats_production
+  url: <%= ENV['DATABASE_URL'] %>
