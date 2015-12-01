@@ -10,6 +10,9 @@
 Сессии: <%= Session.today.count %>
 <br/>
 
+Средняя длительность сессии: <%= duration = Session.today.sum("updated_at - created_at"); parts = duration.split(":").map(&:to_f); (parts[0].hours + parts[1].minutes + parts[2].seconds).to_i / Session.today.count %> сек
+<br/>
+
 <h2>Просмотры по часам</h2>
 <div id="chart_div">
   <% hours = PageView.today.group("cast(to_char(created_at, 'HH24') as int) + #{Time.now.utc_offset / 1.hour}").count %>
