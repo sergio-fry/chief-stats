@@ -10,7 +10,7 @@ require 'mina/git'
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-set :domain, 'stats.charybd.com'
+set :domain, 'hosting2.charybd.com'
 set :deploy_to, '/home/railsapp/apps/stats.charybd.com'
 set :repository, 'https://github.com/sergio-fry/chief-stats.git'
 set :branch, 'master'
