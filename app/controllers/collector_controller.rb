@@ -9,6 +9,7 @@ class CollectorController < ApplicationController
       domain: URI(params[:url]).host,
       referer: params[:referer],
       ip: request.remote_ip,
+      user_agent: request.user_agent,
     })
 
     user_session.page_views.create({
