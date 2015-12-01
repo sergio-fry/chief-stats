@@ -47,4 +47,6 @@ group :development do
   gem 'mina'
 end
 
-
+group :production do
+  gem 'newrelic_rpm'
+end
