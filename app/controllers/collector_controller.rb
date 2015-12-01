@@ -3,8 +3,7 @@ class CollectorController < ApplicationController
 
   def pageview
     # client_id - идентификатор клиента
-    # назначается по первой сессии на сайте
-    cookies[:client_id] ||= { value: session.id, expire: 3.years.from_now }
+    cookies[:client_id] ||= { value: Digest::SHA256.hexdigest("#{Time.now.to_f}#{rand}"), expire: 3.years.from_now }
     @client = Client.find_or_create_by(cookie_id: cookies[:client_id])
 
     @user_session = @client.sessions.find_by(session_id: session.id)
