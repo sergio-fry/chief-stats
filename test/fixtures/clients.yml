@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cookie_id: MyString
+  sessions_count: 1
+
+two:
+  cookie_id: MyString
+  sessions_count: 1

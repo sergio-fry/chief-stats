@@ -1,16 +1,22 @@
 <h1>Статистика сайта russianpulse.ru</h1>
 
 <h2>Сегодня</h2>
-Пользователей на сайте: <%= Session.where("updated_at > ?", 5.minutes.ago).count %>
+Пользователей на сайте: <%= Client.where("updated_at > ?", 5.minutes.ago).count %>
+<br/>
+
+Уникальных пользователей: <%= Client.today.count %>
 <br/>
 
 Просмотры: <%= PageView.today.count %>
 <br/>
 
+Среднее количество просмотров: <%= PageView.today.count.to_f / Session.today.count %>
+<br/>
+
 Сессии: <%= Session.today.count %>
 <br/>
 
-Средняя длительность сессии: <%= duration = Session.today.sum("updated_at - created_at"); parts = duration.split(":").map(&:to_f); (parts[0].hours + parts[1].minutes + parts[2].seconds).to_i / Session.today.count %> сек
+Средняя длительность сессии: <%= duration = Session.today.sum("updated_at - created_at"); parts = duration.split(":").map(&:to_f); (parts[0].hours + parts[1].minutes + parts[2].seconds).to_i / Session.today.count rescue 0 %> сек
 <br/>
 
 <h2>Просмотры по часам</h2>
