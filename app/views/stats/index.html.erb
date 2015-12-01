@@ -1,8 +1,14 @@
 <h1>Статистика сайта russianpulse.ru</h1>
 
+<h2>Сегодня</h2>
 Пользователей на сайте: <%= Session.where("updated_at > ?", 5.minutes.ago).count %>
+<br/>
 
-Просмотров сегодня: <%= PageView.today.count %>
+Просмотры: <%= PageView.today.count %>
+<br/>
+
+Сессии: <%= Session.today.count %>
+<br/>
 
 <h2>Просмотры по часам</h2>
 <div id="chart_div">
