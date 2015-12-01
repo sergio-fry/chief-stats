@@ -1,10 +1,25 @@
 <h1>Статистика сайта russianpulse.ru</h1>
 
+Пользователей на сайте: <%= Session.where("updated_at > ?", 5.minutes.ago).count %>
+
 Просмотров сегодня: <%= PageView.today.count %>
 
-<div>
+<h2>Просмотры по часам</h2>
+<div id="chart_div">
+  <% hours = PageView.today.group("cast(to_char(created_at, 'HH24') as int) + #{Time.now.utc_offset / 1.hour}").count %>
 
-<div id="chart_div"></div>
+  <table border=1>
+    <tr>
+      <% (0..23).each do |hour| %>
+        <th><%= hour %></th>
+      <% end %>
+    </tr>
+    <tr>
+      <% (0..23).each do |hour| %>
+        <td><%= hours[hour] || 0 %></td>
+      <% end %>
+    </tr>
+  </table>
 </div>
 
 <script type="text/javascript">
