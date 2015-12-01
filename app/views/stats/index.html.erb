@@ -11,9 +11,9 @@
   google.load("visualization", "1", {packages:["corechart"]});
   google.setOnLoadCallback(drawChart);
   function drawChart() {
-    <% hours = PageView.today.group("to_char(created_at, 'HH24')").count %>
+    <% hours = PageView.today.group("cast(to_char(created_at, 'HH24') as int) + #{Time.now.utc_offset / 1.hour}").count %>
 
-    var rows = <%= raw (0..23).map { |h| [h.to_s, hours[h.to_s.rjust(2, "0")] || 0] }.to_json %>;
+    var rows = <%= raw (0..23).map { |h| [h.to_s, hours[h] || 0] }.to_json %>;
 
     var data = google.visualization.arrayToDataTable([
       ['Hours',  'Просмотры'],
