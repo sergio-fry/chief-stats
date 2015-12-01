@@ -1,4 +1,4 @@
-<h1>Статистика сайта russianpulse.ru</h1>
+<h1>Статистика сайта</h1>
 
 <h2>Сегодня</h2>
 Пользователей на сайте: <%= Client.where("updated_at > ?", 5.minutes.ago).count %>
@@ -21,20 +21,6 @@
 
 <h2>Просмотры по часам</h2>
 <div id="chart_div">
-  <% hours = PageView.today.group("cast(to_char(created_at, 'HH24') as int) + #{Time.now.utc_offset / 1.hour}").count %>
-
-  <table border=1>
-    <tr>
-      <% (0..23).each do |hour| %>
-        <th><%= hour %></th>
-      <% end %>
-    </tr>
-    <tr>
-      <% (0..23).each do |hour| %>
-        <td><%= hours[hour] || 0 %></td>
-      <% end %>
-    </tr>
-  </table>
 </div>
 
 <script type="text/javascript">
@@ -60,3 +46,12 @@
     chart.draw(data, options);
   }
 </script>
+
+<h2>Код для вставки</h2>
+<textarea><script>
+(function(i,s,o,g,r,a,m){i['CHSTObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','<%= Rails.configuration.base_url %>/chst.js','cs');
+</script>
+</textarea>
