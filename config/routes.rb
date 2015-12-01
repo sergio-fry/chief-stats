@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 
   root 'stats#index'
 
+  get 'test/:action', controller: :test_pages
+  get 'chst.js' => 'collector#script', :defaults => { :format => 'js' }
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
