@@ -11,7 +11,6 @@ class CollectorController < ApplicationController
 
     @user_session ||= @client.sessions.create({
       session_id: session.id,
-      domain: URI(params[:url]).host,
       referer: params[:referer],
       ip: headers["CF-Connecting-IP"] || request.remote_ip,
       user_agent: request.user_agent,
