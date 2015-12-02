@@ -3,6 +3,10 @@ class CollectorController < ApplicationController
   around_filter :transaction_wrapper, only: :pageview
 
   def pageview
+    # TODO: вынести в bg job
+    # ConsumePageViewJob.perform_later(client_id, session_id, ip, user_agent, url, referer)
+
+
     # client_id - идентификатор клиента
     cookies[:client_id] ||= { value: Digest::SHA256.hexdigest("#{Time.now.to_f}#{rand}"), expire: 3.years.from_now }
     @client = Client.find_or_create_by(cookie_id: cookies[:client_id])
