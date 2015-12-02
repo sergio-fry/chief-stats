@@ -4,6 +4,7 @@ class CollectorController < ApplicationController
 
   def pageview
     # TODO: вынести в bg job
+    # https://github.com/brandonhilkert/sucker_punch
     # ConsumePageViewJob.perform_later(client_id, session_id, ip, user_agent, url, referer)
 
 
@@ -27,6 +28,9 @@ class CollectorController < ApplicationController
 
     response.headers.delete "X-Frame-Options"
     response.headers["Content-Security-Policy"] = "frame-ancestors *"
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    response.headers["Access-Control-Allow-Origin"] = URI(request.referer).host rescue nil
+
     render text: "OK"
   end
 
