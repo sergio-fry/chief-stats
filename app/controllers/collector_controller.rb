@@ -1,5 +1,6 @@
 class CollectorController < ApplicationController
   skip_before_action :verify_authenticity_token
+  around_filter :transaction_wrapper, only: :pageview
 
   def pageview
     # client_id - идентификатор клиента
@@ -26,5 +27,13 @@ class CollectorController < ApplicationController
 
   def script
     render layout: false
+  end
+
+  private
+
+  def transaction_wrapper
+    ActiveRecord::Base.transaction do
+      yield
+    end
   end
 end
