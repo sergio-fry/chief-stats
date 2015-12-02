@@ -22,6 +22,8 @@ class CollectorController < ApplicationController
       referer: params[:referer],
     })
 
+    response.headers.delete "X-Frame-Options"
+    response.headers["Content-Security-Policy"] = "frame-ancestors *"
     render text: "OK"
   end
 
