@@ -29,7 +29,7 @@ class CollectorController < ApplicationController
     response.headers.delete "X-Frame-Options"
     response.headers["Content-Security-Policy"] = "frame-ancestors *"
     response.headers["Access-Control-Allow-Credentials"] = "true"
-    response.headers["Access-Control-Allow-Origin"] = URI(request.referer).host rescue nil
+    response.headers["Access-Control-Allow-Origin"] = request.referer
 
     render text: "OK"
   end
