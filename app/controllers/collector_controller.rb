@@ -9,13 +9,14 @@ class CollectorController < ApplicationController
 
 
     # client_id - идентификатор клиента
-    cookies[:client_id] ||= { value: Digest::SHA256.hexdigest("#{Time.now.to_f}#{rand}"), expire: 3.years.from_now }
+    cookies[:client_id] ||= { value: Digest::SHA256.hexdigest("#{Time.now.to_f}#{rand}"), expires: 3.years.from_now }
     @client = Client.find_or_create_by(cookie_id: cookies[:client_id])
 
-    @user_session = @client.sessions.find_by(session_id: session.id)
+    cookies[:session_id] ||= { value: Digest::SHA256.hexdigest("#{Time.now.to_f}#{rand}"), expires: 30.minutes.from_now }
+    @user_session = @client.sessions.find_by(session_id: cookies[:session_id])
 
     @user_session ||= @client.sessions.create({
-      session_id: session.id,
+      session_id: cookies[:session_id],
       referer: params[:referer],
       ip: headers["CF-Connecting-IP"] || request.remote_ip,
       user_agent: request.user_agent,
@@ -26,10 +27,12 @@ class CollectorController < ApplicationController
       referer: params[:referer],
     })
 
+=begin
     response.headers.delete "X-Frame-Options"
     response.headers["Content-Security-Policy"] = "frame-ancestors *"
     response.headers["Access-Control-Allow-Credentials"] = "true"
     response.headers["Access-Control-Allow-Origin"] = "#{URI(request.referer).scheme}://#{URI(request.referer).host}" rescue nil
+=end
 
     render text: "OK"
   end

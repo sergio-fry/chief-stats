@@ -10,6 +10,5 @@ for(var i in params) {
   components.push(i + "=" + params[i]);
 }
 
-var xhr = new XMLHttpRequest();
-xhr.open('GET', '<%= Rails.configuration.base_url %>/api/c/p?' + encodeURI(components.join("&")), true);
-xhr.send();
+var img = new Image();
+img.src = '<%= Rails.configuration.base_url %>/api/c/p?' + encodeURI(components.join("&"));
