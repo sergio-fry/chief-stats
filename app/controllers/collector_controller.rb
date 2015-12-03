@@ -14,6 +14,7 @@ class CollectorController < ApplicationController
     @client = Client.find_or_create_by(cookie_id: cookies[:client_id])
 
     cookies[:session_id] ||= Digest::SHA256.hexdigest("#{Time.now.to_f}#{rand}")
+    cookies[:session_id] = { value: cookies[:session_id], expires: 30.minutes.from_now }
     @user_session = @client.sessions.find_by(session_id: cookies[:session_id])
 
     @user_session ||= @client.sessions.create({
