@@ -4,19 +4,19 @@
 Пользователей на сайте: <%= Client.where("updated_at > ?", 5.minutes.ago).count %>
 <br/>
 
-Уникальных пользователей: <%= Client.today(time_zone_shift).count %>
+Уникальных пользователей: <%= Client.today.count %>
 <br/>
 
-Просмотры: <%= PageView.today(time_zone_shift).count %>
+Просмотры: <%= PageView.today.count %>
 <br/>
 
-Среднее количество просмотров: <%= PageView.today(time_zone_shift).count.to_f / Session.today(time_zone_shift).count %>
+Среднее количество просмотров: <%= PageView.today.count.to_f / Session.today.count %>
 <br/>
 
-Сессии: <%= Session.today(time_zone_shift).count %>
+Сессии: <%= Session.today.count %>
 <br/>
 
-Средняя длительность сессии: <%= duration = Session.today(time_zone_shift).sum("updated_at - created_at"); parts = duration.split(":").map(&:to_f); (parts[0].hours + parts[1].minutes + parts[2].seconds).to_i / Session.today(time_zone_shift).count rescue 0 %> сек
+Средняя длительность сессии: <%= duration = Session.today.sum("updated_at - created_at"); parts = duration.split(":").map(&:to_f); (parts[0].hours + parts[1].minutes + parts[2].seconds).to_i / Session.today.count rescue 0 %> сек
 <br/>
 
 <h2>Просмотры по часам</h2>
@@ -27,7 +27,7 @@
   google.load("visualization", "1", {packages:["corechart"]});
   google.setOnLoadCallback(drawChart);
   function drawChart() {
-    <% hours = PageView.today(time_zone_shift).group("cast(to_char(created_at, 'HH24') as int) + #{time_zone_shift}").count %>
+    <% hours = PageView.today.group("cast(to_char(created_at #{time_zone_shift > 0 ? '+' : '-'} interval '#{time_zone_shift.abs} hours', 'HH24') as int)").count %>
 
     var rows = <%= raw (0..23).map { |h| ["#{h}:00 - #{h+1}:00", hours[h] || 0] }.to_json %>;
 
@@ -57,7 +57,7 @@ function drawChart() {
   var data = google.visualization.arrayToDataTable([
       ['День', 'Просмотры'],
       <% (0..30).to_a.reverse.each do |day| %>
-        ['<%= day.days.ago.day %>',  <%= PageView.where("created_at BETWEEN ? AND ?", day.days.ago + time_zone_shift - 1.day, day.days.ago + time_zone_shift).count %>],
+        ['<%= day.days.ago.day %>',  <%= PageView.where("created_at BETWEEN ? AND ?", day.days.ago - 1.day, day.days.ago).count %>],
       <% end %>
       ]);
 

@@ -3,14 +3,26 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :time_zone_shift
+  around_filter :time_zone_wrapper
+  helper_method :time_zone_shift, :tzs, :time_zone, :tz
 
   private
 
   def time_zone_shift
-    # Москва
     3
   end
 
-  alias :tz :time_zone_shift
+  alias :tzs :time_zone_shift
+
+  def time_zone
+    "Moscow"
+  end
+
+  alias :tz :time_zone
+
+  def time_zone_wrapper
+    Time.use_zone time_zone do
+      yield
+    end
+  end
 end
