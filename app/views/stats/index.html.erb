@@ -57,7 +57,7 @@ function drawChart() {
   var data = google.visualization.arrayToDataTable([
       ['День', 'Просмотры'],
       <% (0..30).to_a.reverse.each do |day| %>
-        ['<%= day.days.ago.day %>',  <%= PageView.where("created_at BETWEEN ? AND ?", day.days.ago - 1.day, day.days.ago).count %>],
+        ['<%= day.days.ago.day %>',  <%= PageView.where("created_at BETWEEN ? AND ?", Time.zone.now.beginning_of_day - day.days, Time.zone.now.beginning_of_day - day.days + 1.day).count %>],
       <% end %>
       ]);
 
