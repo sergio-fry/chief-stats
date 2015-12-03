@@ -7,8 +7,8 @@ var params = {
 var components = [];
 
 for(var i in params) {
-  components.push(i + "=" + params[i]);
+  components.push(i + "=" + encodeURIComponent(params[i]));
 }
 
 var img = new Image();
-img.src = '<%= Rails.configuration.base_url %>/api/c/p?' + encodeURI(components.join("&"));
+img.src = '<%= Rails.configuration.base_url %>/api/c/p?' + components.join("&");
