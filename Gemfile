@@ -53,3 +53,4 @@ end
 
 gem 'sidekiq', '~> 2.0'
 gem 'sinatra', :require => nil
+gem 'mina-sidekiq'
