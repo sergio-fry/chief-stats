@@ -50,3 +50,6 @@ end
 group :production do
   gem 'newrelic_rpm'
 end
+
+gem 'sidekiq', '~> 2.0'
+gem 'sinatra', :require => nil
