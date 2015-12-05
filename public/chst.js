@@ -11,5 +11,5 @@ for(var i in params) {
 }
 
 var img = new Image();
-img.src = 'http://localhost:8080/api/p/v?' + components.join("&");
+img.src = 'http://consumer.charybd.com/api/p/v?' + components.join("&");
 
